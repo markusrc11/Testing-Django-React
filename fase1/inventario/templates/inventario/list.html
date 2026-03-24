@@ -1,18 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Productos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Productos</h1>
-  <ul>
-    {% for producto in items %}
-      <li>
-        {{ producto.nombre }}: {{ producto.cantidad }}
-      </li>
-    {% endfor %}
-  </ul>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+
+    <div class="max-w-4xl mx-auto py-10 px-4">
+        <header class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-indigo-600">Panel de Inventario</h1>
+                <p class="text-gray-500">Listado técnico de componentes de ingeniería</p>
+            </div>
+            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow transition">
+                <a href="{% url 'crear_producto' %}">+ Añadir Producto</a>
+            </button>
+        </header>
+
+        <main class="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-gray-100 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-4 font-semibold text-gray-600">Nombre</th>
+                        <th class="px-6 py-4 font-semibold text-gray-600">SKU</th>
+                        <th class="px-6 py-4 font-semibold text-gray-600">Cantidad</th>
+                        <th class="px-6 py-4 font-semibold text-gray-600">Última Act.</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for producto in items %}
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="px-6 py-4 font-medium text-gray-800">{{ producto.nombre }}</td>
+                        <td class="px-6 py-4 text-sm font-mono text-indigo-500">{{ producto.SKU }}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 rounded-full text-xs font-bold {% if producto.cantidad < 5 %}bg-red-100 text-red-600{% else %}bg-green-100 text-green-600{% endif %}">
+                                {{ producto.cantidad }} unidades
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-400">
+                            {{ producto.ultima_actualizacion|date:"d/m/Y H:i" }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-10 text-center text-gray-500 italic">
+                            No hay productos registrados en el sistema.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+    </div>
+
 </body>
 </html>
