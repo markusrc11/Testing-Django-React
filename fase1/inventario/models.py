@@ -7,3 +7,6 @@ class Producto(models.Model):
     SKU = models.CharField(unique=True, max_length=50, validators=[RegexValidator(regex='^ING-\d{4}$', message='SKU debe tener el formato ING-XXXX donde XXXX son dígitos.')])
     cantidad = models.PositiveIntegerField()
     ultima_actualizacion = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.nombre} ({self.SKU})"
